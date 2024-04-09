@@ -7,13 +7,32 @@ export class TaskManager extends Component {
 	constructor(placeholderId, props) {
 		super(placeholderId, props, templateHTML);
 		this.tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
+		this.api = props.data.api;
+		// this.testing = props.data.dataTest;
+		this.getInform();
 		this.init();
 	}
 
 	init() {
 		this.refs.newTask.addEventListener("click", (e) => this.addTask());
 		this.displayTasks();
+	}
+
+	async getInform() {
+		try {
+			this.triggerEvent("onLoader");
+			this.user = await this.api.getUsers();
+			this.tasks = [...new Set([...this.tasks, ...this.user])];
+			this.updateLocalStorage();
+			this.displayTasks(); // Обновляем отображение задач
+			this.triggerEvent("offLoader");
+
+			console.log("🚀 ~ TaskManager ~ constructor ~ this.user:", this.user);
+		} catch (error) {
+			console.error("Failed to load user data:", error);
+		} finally {
+			this.triggerEvent("offLoader");
+		}
 	}
 
 	displayTasks() {
@@ -45,8 +64,8 @@ export class TaskManager extends Component {
 	}
 
 	addTask() {
-		const title = this.refs.newTaskInput.value;
-		if (!taskInput.value) {
+		const title = this.refs.newTaskInput.value.trim();
+		if (!title) {
 			// валидация
 			return 0;
 		}
@@ -57,6 +76,7 @@ export class TaskManager extends Component {
 		this.updateLocalStorage();
 		this.displayTasks();
 		this.refs.newTaskInput.value = "";
+		this.triggerEvent("toast");
 	}
 
 	updateLocalStorage() {

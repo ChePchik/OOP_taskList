@@ -24,6 +24,8 @@ import "./app/assets/style/style.scss";
 import { Preloader } from "./app/components/preloader/preloader";
 import { TaskManager } from "./app/components/task/TaskManager";
 import template from "./app/components/template.html?raw";
+import { Toaster } from "./app/components/toaster/toaster";
+// import { ApiService } from "./app/services/ApiService";
 
 class Main {
 	constructor() {
@@ -48,7 +50,22 @@ class Main {
 	}
 
 	initializeComponents() {
-		this.tasks = new TaskManager("task");
+		// this.api = new ApiService("https://jsonplaceholder.typicode.com/");
+
+		this.toaster = new Toaster();
+
+		this.tasks = new TaskManager("task", {
+			data: {
+				// api: this.api,
+				dataTest: "тестирование",
+			},
+			events: {
+				toast: (event) => {
+					this.toaster.showToast(`Задача успешно добавлена!`, 5000);
+					// console.log("🚀 ~ Main ~ initializeComponents ~ event:", event);
+				},
+			},
+		});
 		// Логика инициализации других компонентов приложения
 	}
 }

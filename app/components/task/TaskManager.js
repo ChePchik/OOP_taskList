@@ -9,7 +9,7 @@ export class TaskManager extends Component {
 		this.tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 		this.api = props.data.api;
 		// this.testing = props.data.dataTest;
-		// this.getInform();
+		this.getInform();
 		this.init();
 	}
 

@@ -22,7 +22,6 @@
 // };
 import "./app/assets/style/style.scss";
 import { Preloader } from "./app/components/preloader/preloader";
-import { SearchPanel } from "./app/components/searchPanel/searchPanel";
 import { TaskManager } from "./app/components/task/TaskManager";
 import template from "./app/components/template.html?raw";
 import { Toaster } from "./app/components/toaster/toaster";
@@ -72,11 +71,6 @@ class Main {
 				offLoader: () => {
 					this.preloader.notVisiblePreloader();
 				},
-			},
-		});
-		this.searchPanel = new SearchPanel("searchPanel", {
-			data: {
-				taskManager: this.tasks,
 			},
 		});
 

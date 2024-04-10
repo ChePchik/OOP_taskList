@@ -47,7 +47,7 @@ export class TaskManager extends Component {
 		tasksList.innerHTML = ""; // Очистить текущий список
 		this.tasks.forEach((task) => {
 			const taskElement = document.createElement("li");
-			taskElement.textContent = task.title;
+			taskElement.textContent = task.isCompleted + " " + task.title + " " + task.priority;
 			taskElement.onclick = () => this.toggleCompleted(task.id);
 			tasksList.appendChild(taskElement);
 
@@ -72,13 +72,15 @@ export class TaskManager extends Component {
 
 	addTask() {
 		const title = this.refs.newTaskInput.value.trim();
+		const taskPriority = this.refs.taskPriority.value;
+		console.log("🚀 ~ TaskManager ~ addTask ~ this.refs.taskPriority:", this.refs.taskPriority);
 		if (!title) {
 			// валидация
 			return 0;
 		}
 
 		const id = Date.now();
-		const newTask = new Task(id, title);
+		const newTask = new Task(id, title, false, taskPriority);
 		this.tasks.push(newTask);
 		this.updateLocalStorage();
 		this.displayTasks();
@@ -100,6 +102,7 @@ export class TaskManager extends Component {
 		if (task) {
 			task.isCompleted = !task.isCompleted;
 			this.updateLocalStorage();
+			this.displayTasks();
 		}
 	}
 

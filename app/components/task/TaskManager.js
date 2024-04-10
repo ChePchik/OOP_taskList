@@ -9,7 +9,7 @@ export class TaskManager extends Component {
 		this.tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 		this.api = props.data.api;
 		// this.testing = props.data.dataTest;
-		this.getInform();
+		// this.getInform();
 		this.init();
 	}
 
@@ -33,6 +33,13 @@ export class TaskManager extends Component {
 		} finally {
 			this.triggerEvent("offLoader");
 		}
+	}
+
+	searchTasks(searchTerm) {
+		const lowerCaseTerm = searchTerm.toLowerCase();
+		// console.log("🚀 ~ TaskManager ~ searchTasks ~ lowerCaseTerm:", lowerCaseTerm);
+		console.log("🚀 ~ TaskManager ~ searchTasks ~ this.tasks:", this.tasks);
+		return this.tasks.filter((task) => task.title.toLowerCase().includes(lowerCaseTerm));
 	}
 
 	displayTasks() {

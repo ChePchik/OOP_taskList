@@ -27,22 +27,23 @@ export class SearchPanel extends Component {
 	updateTaskDisplay(filteredTasks) {
 		// Логика для обновления отображения задач на основе результатов поиска
 		const tasksContainer = this.taskManager.refs.tasksList;
+		console.log("🚀 ~ SearchPanel ~ updateTaskDisplay ~ this.taskManager:", this.taskManager);
 
 		tasksContainer.innerHTML = ""; // Очистить текущее отображение задач
 
 		filteredTasks.forEach((task) => {
 			const taskElement = document.createElement("li");
 			taskElement.textContent = task.title;
-			// taskElement.onclick = () => this.toggleCompleted(task.id);
+			taskElement.onclick = () => this.taskManager.toggleCompleted(task.id);
 			tasksList.appendChild(taskElement);
 
-			// const deleteButton = document.createElement("button");
-			// deleteButton.textContent = "Delete";
-			// deleteButton.onclick = (e) => {
-			// 	e.stopPropagation(); // Предотвращаем срабатывание onclick родителя
-			// 	// this.deleteTask(task.id);
-			// };
-			// taskElement.appendChild(deleteButton);
+			const deleteButton = document.createElement("button");
+			deleteButton.textContent = "Delete";
+			deleteButton.onclick = (e) => {
+				e.stopPropagation(); // Предотвращаем срабатывание onclick родителя
+				this.taskManager.deleteTask(task.id);
+			};
+			taskElement.appendChild(deleteButton);
 		});
 		// // Добавление отфильтрованных задач в контейнер
 		// filteredTasks.forEach((task) => {
